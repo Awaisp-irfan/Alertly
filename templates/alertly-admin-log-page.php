@@ -43,6 +43,20 @@ if (!defined('ABSPATH')) {
                     </tr>
                 <?php endforeach; ?>
             </tbody>
+            <!-- <tbody>
+                <?php foreach ($all_email_logs as $index => $log): ?>
+                    <tr>
+                        <td><a href="<?php echo get_permalink($log['post_id']); ?>" target="_blank"><?php echo esc_html($log['post_id']); ?></a></td>
+                        <td><a href="<?php echo get_permalink($log['post_id']); ?>" target="_blank"><?php echo esc_html($log['post_title']); ?></a></td>
+                        <td><?php echo esc_html($log['from_email']); ?></td>
+                        <td><?php echo esc_html($log['sent_to']); ?></td>
+                        <td><?php echo esc_html($log['skipped']); ?></td>
+                        <td><?php echo esc_html($log['success']); ?></td>
+                        <td><?php echo esc_html($log['failure']); ?></td>
+                        <td><a href="<?php echo admin_url('admin.php?page=alertly-log-details&log_index=' . $index); ?>">View Details</a></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody> -->
         </table>
     <?php else: ?>
         <p>No email logs found.</p>
