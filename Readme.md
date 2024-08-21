@@ -1,1 +1,1 @@
-this is the documentaion of Alertly plugin
+this is the documentaion of Alertly plugin`
