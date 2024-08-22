@@ -45,3 +45,15 @@ body {
     font-style: italic;
     color: #666666;
 }
+
+.button {
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+    padding: 10px;
+    text-align: center;
+    background-color: #000000;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+}
