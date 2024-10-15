@@ -1,11 +1,16 @@
 <?php
 
+namespace ALERTLY\Includes;
+
+use ALERTLY\Includes\Traits\Singleton;
+
+
 /**
  * Class Alertly_Email_Logger
  * Handles logging of email notifications.
  */
 class Alertly_Email_Logger {
-    private static $instance = null;
+    use Singleton; // Use Singleton trait for single instance
 
     /**
      * Private constructor to prevent multiple instances.
@@ -15,25 +20,18 @@ class Alertly_Email_Logger {
     }
 
     /**
-     * Singleton pattern to get the single instance of the class.
-     *
-     * @return Alertly_Email_Logger|null
-     */
-    public static function get_instance() {
-        if (null === self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
-
-    /**
      * Logs the email notification details.
      *
      * @param array $email_log Array containing log details.
      */
     public static function log_email($email_log) {
+        // Retrieve all email logs from the database
         $all_email_logs = get_option('alertly_email_logs', array());
+
+        // Append the new log entry
         $all_email_logs[] = $email_log;
+
+        // Update the option in the database
         update_option('alertly_email_logs', $all_email_logs);
     }
 }

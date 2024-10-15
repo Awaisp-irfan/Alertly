@@ -30,7 +30,6 @@
             padding: 0;
         }
         .container {
-            
             width: 80%;
             max-width: 800px;
             margin: 20px auto;

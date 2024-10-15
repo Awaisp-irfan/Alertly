@@ -1,11 +1,16 @@
 <?php
 
+namespace ALERTLY\Includes;
+
+use ALERTLY\Includes\Traits\Singleton;
+
+
 /**
  * Class Alertly_Email
  * Handles email notifications for new posts.
  */
 class Alertly_Email {
-    private static $instance = null;
+    use Singleton; // Use Singleton trait for single instance
 
     /**
      * Private constructor to prevent multiple instances.
@@ -13,18 +18,6 @@ class Alertly_Email {
      */
     private function __construct() {
         add_action('publish_post', array($this, 'send_email_notifications'), 10, 2);
-    }
-
-    /**
-     * Singleton pattern to get the single instance of the class.
-     *
-     * @return Alertly_Email|null
-     */
-    public static function get_instance() {
-        if (null === self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
     }
 
     /**

@@ -18,16 +18,25 @@ define('ALERTLY_TEMPLATES_DIR', ALERTLY_PLUGIN_DIR . 'templates/');
 /**
  * Include required files
  */
-require_once ALERTLY_INCLUDES_DIR . 'class-alertly-email.php';
-require_once ALERTLY_INCLUDES_DIR . 'class-alertly-email-logger.php';
-require_once ALERTLY_INCLUDES_DIR . 'class-alertly-admin.php';
-require_once ALERTLY_INCLUDES_DIR . 'class-alertly-subscriber.php'; // Add this line
+// require_once ALERTLY_INCLUDES_DIR . 'traits/trait-singleton.php'; // Include the Singleton trait
+// require_once ALERTLY_INCLUDES_DIR . 'classes/class-alertly-email.php';
+// require_once ALERTLY_INCLUDES_DIR . 'classes/class-alertly-email-logger.php';
+// require_once ALERTLY_INCLUDES_DIR . 'classes/class-alertly-admin.php';
+// require_once ALERTLY_INCLUDES_DIR . 'classes/class-alertly-subscriber.php';
 
 /**
- * Initialize the plugin
+ * Include the autoloader
  */
-Alertly_Email::get_instance();
-Alertly_Email_Logger::get_instance();
-Alertly_Admin::get_instance();
-Alertly_Subscriber::get_instance(); // Initialize the subscriber class
-?>
+require_once ALERTLY_PLUGIN_DIR . 'includes/helpers/autoloader.php';
+
+
+/**
+ * Call the main class to initialize the plugin
+ */
+
+ function alertly_get_theme_instacnce(){
+
+     ALERTLY\Includes\Alertly::get_instance();
+ }
+
+ alertly_get_theme_instacnce();

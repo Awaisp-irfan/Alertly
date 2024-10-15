@@ -1,11 +1,16 @@
 <?php
 
+namespace ALERTLY\Includes;
+
+use ALERTLY\Includes\Traits\Singleton;
+
+
 /**
  * Class Alertly_Admin
  * Manages admin-related functionalities for the Alertly plugin.
  */
 class Alertly_Admin {
-    private static $instance = null;
+    use Singleton; // Use Singleton trait
 
     /**
      * Private constructor to prevent multiple instances.
@@ -14,18 +19,6 @@ class Alertly_Admin {
     private function __construct() {
         add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('admin_menu', array($this, 'highlight_current_menu'), 999);
-    }
-
-    /**
-     * Singleton pattern to get the single instance of the class.
-     *
-     * @return Alertly_Admin|null
-     */
-    public static function get_instance() {
-        if (null === self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
     }
 
     /**
@@ -72,7 +65,27 @@ class Alertly_Admin {
             'alertly-subscribers',
             array($this, 'display_subscribers_page')
         );
+
+         // Add submenu item for Domain & SMTP Health Check
+        add_submenu_page(
+            'alertly-log',
+            'Domain & SMTP Health Check', // Page title
+            'Health Check',               // Menu title
+            'manage_options',             // Capability
+            'alertly-checks',             // Menu slug
+            array($this, 'display_health_check_page') // Callback function
+        );
+    
     }
+
+    /**
+     * Display the health check page.
+     */
+    public function display_health_check_page() {
+        // Call the display function in Alertly_Checks class to handle the logic and display
+        Alertly_Checks::get_instance()->display_checks_page();
+    }
+
 
     /**
      * Displays the log page in the admin dashboard.
@@ -96,22 +109,21 @@ class Alertly_Admin {
     public function display_subscribers_page() {
         // Get the instance of Alertly_Subscriber
         $subscriber_manager = Alertly_Subscriber::get_instance();
-    
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alertly_add_subscriber_nonce']) && wp_verify_nonce($_POST['alertly_add_subscriber_nonce'], 'alertly_add_subscriber')) {
             $name = sanitize_text_field($_POST['name']);
             $email = sanitize_email($_POST['email']);
             $subscriber_manager->add_subscriber($name, $email); // Non-static call
         }
-    
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alertly_delete_subscriber_nonce']) && wp_verify_nonce($_POST['alertly_delete_subscriber_nonce'], 'alertly_delete_subscriber')) {
             $subscriber_id = intval($_POST['subscriber_id']);
             $subscriber_manager->remove_subscriber($subscriber_id); // Non-static call
         }
-    
+
         $subscribers = $subscriber_manager->get_subscribers(); // Non-static call
         include ALERTLY_TEMPLATES_DIR . 'alertly-admin-subscribers-page.php';
     }
-    
 
     /**
      * Ensures the correct top-level menu is highlighted in the admin dashboard.
@@ -126,5 +138,3 @@ class Alertly_Admin {
     }
 }
 
-// Initialize the Alertly Admin class.
-Alertly_Admin::get_instance();

@@ -43,7 +43,6 @@ if (!defined('ABSPATH')) {
                     </tr>
                 <?php endforeach; ?>
             </tbody>
-           
         </table>
     <?php else: ?>
         <p>No email logs found.</p>
