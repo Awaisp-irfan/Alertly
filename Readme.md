@@ -1,1 +1,0 @@
-this is the documentaion of Alertly plugin`
