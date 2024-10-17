@@ -110,4 +110,6 @@ class Alertly_Email {
             echo '<div class="notice notice-error is-dismissible"><p>' . esc_html($message) . '</p></div>';
         });
     }
+
+    
 }

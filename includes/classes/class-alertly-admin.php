@@ -30,7 +30,7 @@ class Alertly_Admin {
             'Alertly',
             'Alertly',
             'manage_options',
-            'alertly-log',
+            'alertly-dashboard',
             array($this, 'display_log_page'),
             'dashicons-email-alt',
             100
@@ -38,7 +38,7 @@ class Alertly_Admin {
 
         // Add submenu item for email logs
         add_submenu_page(
-            'alertly-log',
+            'alertly-dashboard',
             'Email Logs',
             'Email Logs',
             'manage_options',
@@ -48,7 +48,7 @@ class Alertly_Admin {
 
         // Add hidden submenu item for log details (to ensure permissions check)
         add_submenu_page(
-            'alertly-log',
+            'alertly-dashboard',
             'Email Log Details',
             '', // Hidden, no title in the submenu
             'manage_options',
@@ -58,7 +58,7 @@ class Alertly_Admin {
 
         // Add submenu item for managing subscribers
         add_submenu_page(
-            'alertly-log',
+            'alertly-dashboard',
             'Manage Subscribers',
             'Manage Subscribers',
             'manage_options',
@@ -68,15 +68,165 @@ class Alertly_Admin {
 
          // Add submenu item for Domain & SMTP Health Check
         add_submenu_page(
-            'alertly-log',
-            'Domain & SMTP Health Check', // Page title
-            'Health Check',               // Menu title
-            'manage_options',             // Capability
-            'alertly-checks',             // Menu slug
-            array($this, 'display_health_check_page') // Callback function
+            'alertly-dashboard',
+            'Domain & SMTP Health Check', 
+            'Health Check',               
+            'manage_options',             
+            'alertly-checks',             
+            array($this, 'display_health_check_page') 
         );
+
+
+
+
+        add_submenu_page(
+            'alertly-dashboard',                 // Parent slug
+            'Available Post Types',        // Page title
+            'Post Types',                  // Menu title
+            'manage_options',              // Capability
+            'alertly-post-types',          // Menu slug
+            array($this, 'display_post_types_page') // Callback function
+        );
+
+         // Dashboard submenu
+    add_submenu_page(
+        'alertly-dashboard',
+        'Dashboard',
+        'Dashboard',
+        'manage_options',
+        'alertly-dashboard',
+        array($this, 'display_dashboard_page')
+    );
+
+    // Subscription Forms submenu
+    add_submenu_page(
+        'alertly-dashboard',
+        'Subscription Forms',
+        'Subscription Forms',
+        'manage_options',
+        'alertly-subscription-forms',
+        array($this, 'display_subscription_forms_page')
+    );
+
+    // Email Subscribers submenu
+    add_submenu_page(
+        'alertly-dashboard',
+        'Email Subscribers',
+        'Email Subscribers',
+        'manage_options',
+        'alertly-subscribers',
+        array($this, 'display_subscribers_page')
+    );
+
+    // Email Campaigns submenu
+    add_submenu_page(
+        'alertly-dashboard',
+        'Email Campaigns',
+        'Email Campaigns',
+        'manage_options',
+        'alertly-campaigns',
+        array($this, 'display_campaigns_page')
+    );
+
+    // Automation Rules submenu
+    add_submenu_page(
+        'alertly-dashboard',
+        'Automation Rules',
+        'Automation Rules',
+        'manage_options',
+        'alertly-automation-rules',
+        array($this, 'display_automation_rules_page')
+    );
+
+    // Settings submenu
+    add_submenu_page(
+        'alertly-dashboard',
+        'Settings',
+        'Settings',
+        'manage_options',
+        'alertly-settings',
+        array($this, 'display_settings_page')
+    );
+
+    // Tools submenu
+    add_submenu_page(
+        'alertly-dashboard',
+        'Tools',
+        'Tools',
+        'manage_options',
+        'alertly-tools',
+        array($this, 'display_tools_page')
+    );
+
+    // Extensions submenu
+    add_submenu_page(
+        'alertly-dashboard',
+        'Extensions',
+        'Extensions',
+        'manage_options',
+        'alertly-extensions',
+        array($this, 'display_extensions_page')
+    );
+
+    // Documentation submenu
+    add_submenu_page(
+        'alertly-dashboard',
+        'Documentation',
+        'Documentation',
+        'manage_options',
+        'alertly-documentation',
+        array($this, 'display_documentation_page')
+    );
+
+        
+        
     
     }
+
+    public function display_campaigns_page() {
+        echo '<div class="wrap">';
+        echo '<h1>' . __('Email Campaigns', 'alertly') . '</h1>';
+        
+        echo '<h2 class="nav-tab-wrapper">';
+        echo '<a href="?page=alertly-campaigns&tab=newsletters" class="nav-tab">Newsletters</a>';
+        echo '<a href="?page=alertly-campaigns&tab=automated" class="nav-tab">Automated Emails</a>';
+        echo '<a href="?page=alertly-campaigns&tab=sequences" class="nav-tab">Sequences/Courses</a>';
+        echo '</h2>';
+    
+        $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'newsletters';
+    
+        switch ($current_tab) {
+            case 'newsletters':
+                include ALERTLY_TEMPLATES_DIR . 'alertly-newsletters-tab.php';
+                break;
+            case 'automated':
+                include ALERTLY_TEMPLATES_DIR . 'alertly-automated-emails-tab.php';
+                break;
+            case 'sequences':
+                include ALERTLY_TEMPLATES_DIR . 'alertly-sequences-tab.php';
+                break;
+            default:
+                include ALERTLY_TEMPLATES_DIR . 'alertly-newsletters-tab.php';
+                break;
+        }
+    
+        echo '</div>';
+    }
+    
+
+    public function display_post_types_page() {
+        $post_types = get_post_types(array('public' => true), 'objects');
+    
+        echo '<div class="wrap"><h1>' . __('Available Post Types', 'alertly') . '</h1>';
+        echo '<ul>';
+        foreach ($post_types as $post_type) {
+            echo '<li>' . esc_html($post_type->labels->name) . ' (' . esc_html($post_type->name) . ')</li>';
+        }
+        echo '</ul>';
+        echo '</div>';
+    }
+    
+    
 
     /**
      * Display the health check page.
@@ -136,5 +286,7 @@ class Alertly_Admin {
             $parent_file = 'alertly-log';
         }
     }
+
+    
 }
 

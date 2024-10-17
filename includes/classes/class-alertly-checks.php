@@ -190,6 +190,17 @@ class Alertly_Checks {
         // If no DMARC record is found
         return 'No DMARC record found. ';
     }
+    /**
+     * This function will be utilized to display all the available post types while creating or editing campaigns.
+     */
+    // public function get_all_post_types(){
+    //     $args = [
+    //         'public' => true , 
+    //         '_button' => false,
+    //     ];
+    
+    //     return get_post_types($args, 'objects');
+    // }
     
 }
 
@@ -202,3 +213,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alertly_health_check_
     $dkim_record = $this->get_dkim_record();
     $dmarc_record = $this->get_dmarc_record();
 }
+
+
