@@ -40,3 +40,18 @@ require_once ALERTLY_PLUGIN_DIR . 'includes/helpers/autoloader.php';
  }
 
  alertly_get_theme_instacnce();
+
+ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alertly_create_campaign_nonce']) && wp_verify_nonce($_POST['alertly_create_campaign_nonce'], 'alertly_create_campaign')) {
+    $campaign_name = sanitize_text_field($_POST['campaign_name']);
+    $campaign_description = sanitize_textarea_field($_POST['campaign_description']);
+
+    // Save to the session or database as the first step
+    $_SESSION['alertly_campaign'] = array(
+        'name' => $campaign_name,
+        'description' => $campaign_description
+    );
+
+    // Redirect to the next step (e.g., select post type)
+    wp_redirect(admin_url('admin.php?page=alertly-select-post-type'));
+    exit;
+}
