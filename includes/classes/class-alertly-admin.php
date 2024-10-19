@@ -26,15 +26,15 @@ class Alertly_Admin {
      */
     public function add_admin_menu() {
         // Add main menu item
-        add_menu_page(
-            'Alertly',
-            'Alertly',
-            'manage_options',
-            'alertly-dashboard',
-            array($this, 'display_log_page'),
-            'dashicons-email-alt',
-            100
-        );
+        // add_menu_page(
+        //     'Alertly',
+        //     'Alertly',
+        //     'manage_options',
+        //     'alertly-dashboard',
+        //     array($this, 'display_log_page'),
+        //     'dashicons-email-alt',
+        //     100
+        // );
 
         // Add submenu item for email logs
         add_submenu_page(
@@ -57,14 +57,14 @@ class Alertly_Admin {
         );
 
         // Add submenu item for managing subscribers
-        add_submenu_page(
-            'alertly-dashboard',
-            'Manage Subscribers',
-            'Manage Subscribers',
-            'manage_options',
-            'alertly-subscribers',
-            array($this, 'display_subscribers_page')
-        );
+        // add_submenu_page(
+        //     'alertly-dashboard',
+        //     'Manage Subscribers',
+        //     'Manage Subscribers',
+        //     'manage_options',
+        //     'alertly-subscribers',
+        //     array($this, 'display_subscribers_page')
+        // );
 
          // Add submenu item for Domain & SMTP Health Check
         add_submenu_page(
