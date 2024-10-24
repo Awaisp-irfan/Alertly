@@ -75,6 +75,14 @@ class Alertly_Admin {
             'alertly-checks',             
             array($this, 'display_health_check_page') 
         );
+        add_submenu_page(
+            'alertly-dashboard',
+            'Domain & SMTP Health Check', 
+            'Health Check',               
+            'manage_options',             
+            'alertly-checks',             
+            array($this, 'display_health_check_page') 
+        );
 
 
 
